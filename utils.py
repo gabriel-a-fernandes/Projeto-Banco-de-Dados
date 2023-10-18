@@ -1,4 +1,5 @@
 import cx_Oracle
+cx_Oracle.init_oracle_client(lib_dir=r"C:\instantclient-basic-windows.x64-21.11.0.0.0dbru\instantclient_21_11")
 import json
 
 def conecta_banco(user,senha,dsn):

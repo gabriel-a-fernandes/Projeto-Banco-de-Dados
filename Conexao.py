@@ -1,4 +1,5 @@
 from utils import *
+import requests
 
 dsn = cria_dsn(host ='oracle.fiap.com.br', port=1521, sid='ORCL')
 
@@ -44,3 +45,31 @@ for linha in linhas_da_tabela:
 #pensar em pseudo-código/fluxograma os passos necessários para fazer o que estamos propondo
 #(pegar a informação da API, pegar a informação da tabela, processar os dados e escrever na tabela)
 #link api (https://home.openweathermap.org/users/sign_up)
+
+#RECEBENDO DADOS
+
+key = '2445e34b0549d9e82137ece6efae1ed7'
+lat = -23.563886 
+lon = -46.6529712
+units = "metric"
+endpoint=(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units={units}&appid={key}")
+
+resposta = requests.request("GET",endpoint)
+print(resposta)
+resposta_json = resposta.json()
+
+#pegando os dados da chave "main"
+main = resposta_json["main"]
+temp = main["temp"]
+temp_min = main["temp_min"]
+temp_max = main["temp_max"]
+print(temp)
+print(temp_min)
+print(temp_max)
+
+#pegando os dados da chave "weather"
+#lembrando que, pela documentação, vimos que é uma lista
+
+weather = resposta_json["weather"][0]
+clima = weather["main"]
+print(clima)
