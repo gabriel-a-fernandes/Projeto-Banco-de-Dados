@@ -1,5 +1,6 @@
 from utils import *
 import requests
+from datetime import datetime as dt
 
 dsn = cria_dsn(host ='oracle.fiap.com.br', port=1521, sid='ORCL')
 
@@ -47,16 +48,20 @@ for linha in linhas_da_tabela:
 #link api (https://home.openweathermap.org/users/sign_up)
 
 #RECEBENDO DADOS
-
-key = '2445e34b0549d9e82137ece6efae1ed7'
+key = '2445e34b0549d9e82137ece6efae1ed7' #chave que peguei na api
 lat = -23.563886 
 lon = -46.6529712
 units = "metric"
 endpoint=(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units={units}&appid={key}")
 
+#MOSTRANDO A RESPOSTA DA API [200]
 resposta = requests.request("GET",endpoint)
 print(resposta)
 resposta_json = resposta.json()
+
+#pegando o dia de hoje
+hoje = dt.today()
+print(hoje)
 
 #pegando os dados da chave "main"
 main = resposta_json["main"]
@@ -67,9 +72,16 @@ print(temp)
 print(temp_min)
 print(temp_max)
 
+delta_t = temp_max = temp_min
+
 #pegando os dados da chave "weather"
 #lembrando que, pela documentação, vimos que é uma lista
-
 weather = resposta_json["weather"][0]
 clima = weather["main"]
 print(clima)
+
+
+
+##FECHANDO O BANCO DE DADOS
+#cursor.close()
+#conn.close()
